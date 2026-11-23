@@ -16,9 +16,10 @@ en passant are included.
 
 - 0x88 board, copy-make move generation with king-safety legality.
 - Negamax with alpha-beta, fixed depth 3, deterministic node budget
-  of 24,000 nodes per move (no clock, no randomness). The budget
-  covers the main search and quiescence together, so a tactical
-  position can never run past the time limit.
+  of 24,000 nodes per move for the main search (no clock, no
+  randomness). Quiescence is bounded by depth only (limit 8), like
+  the v1 engine that scored 4/6: capping quiescence by nodes starves
+  the tactical search and makes the engine blunder.
 - Move ordering by MVV-LVA (captured piece value, highest first).
 - Quiescence search: captures only when not in check, all evasions
   when in check, depth limit 8.
