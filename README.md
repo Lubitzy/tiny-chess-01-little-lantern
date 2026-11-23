@@ -17,7 +17,8 @@ en passant are included.
 - Evaluation: material (100/320/330/500/900) plus a simple
   piece-square score — pawn advance and centre bonus, and a
   centrality bonus for knights and bishops.
-- The source is LZMA-compressed and base85-encoded into one line,
+- The source is packed into one line with the make.fun kit's
+  compress tool (LZMA stream with a small unpacker stub),
   then unpacked and executed at startup (see `main.py`).
 
 ## Play
@@ -28,7 +29,7 @@ via `/move`, and never resigns early.
 
 ## Files
 
-- `main.py` — the whole engine (3,227 bytes, packed).
+- `main.py` — the whole engine (2,639 bytes, packed).
 - `README.md` — this file.
 - `LICENSE` — MIT.
 
