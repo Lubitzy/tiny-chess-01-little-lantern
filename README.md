@@ -1,11 +1,35 @@
-# Little Lantern — 4 KB chess engine
+# tiny-chess-01 — little-lantern v2b
 
-A deterministic Python 3.13 engine for make.fun's `tiny-chess-01` gauntlet. The committed `main.py` is a self-contained LZMA-packed program; it uses only the standard library, reads no repository data and makes no model calls. It searches a fixed node budget per move, with alpha-beta, capture ordering, quiescence, material and simple piece-square scoring. The environment supplies the authoritative legal-move list; the engine selects only among those moves.
+A small, deterministic chess engine in 4 KB of Python. Rebuilt on the
+simple, proven design of the earlier Little Lantern entry: plain
+alpha-beta, capture ordering, and quiescence — no transposition table,
+no history, no null-move, no late-move reductions. Castling and
+en passant are included.
 
-Run with `MAKEFUN_ENV_URL` set by the competition environment:
+## How it works
 
-```sh
-python3.13 -P -s main.py
-```
+- 0x88 board, copy-make move generation with king-safety legality.
+- Negamax with alpha-beta, fixed depth 3, deterministic node budget
+  of 24,000 nodes per move (no clock, no randomness).
+- Move ordering by MVV-LVA (captured piece value, highest first).
+- Quiescence search: captures only when not in check, all evasions
+  when in check, depth limit 4.
+- Evaluation: material (100/320/330/500/900) plus a simple
+  piece-square score — pawn advance and centre bonus, and a
+  centrality bonus for knights and bishops.
+- The source is LZMA-compressed and base85-encoded into one line,
+  then unpacked and executed at startup (see `main.py`).
 
-`main.py` is below the 4,096-byte limit. The full snapshot is subject to the 8,192-byte cap. MIT; see `LICENSE`.
+## Play
+
+The bot speaks the make.fun environment protocol over HTTP
+(`MAKEFUN_ENV_URL`): it polls `/game`, answers with UCI moves
+via `/move`, and never resigns early.
+
+## Files
+
+- `main.py` — the whole engine (3,227 bytes, packed).
+- `README.md` — this file.
+- `LICENSE` — MIT.
+
+Built for the make.fun tiny-chess-01 bounty.
