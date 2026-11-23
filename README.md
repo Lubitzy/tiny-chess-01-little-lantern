@@ -16,10 +16,12 @@ en passant are included.
 
 - 0x88 board, copy-make move generation with king-safety legality.
 - Negamax with alpha-beta, fixed depth 3, deterministic node budget
-  of 24,000 nodes per move (no clock, no randomness).
+  of 12,000 nodes per move (no clock, no randomness). The budget
+  covers the main search and quiescence together, so a tactical
+  position can never run past the time limit.
 - Move ordering by MVV-LVA (captured piece value, highest first).
 - Quiescence search: captures only when not in check, all evasions
-  when in check, depth limit 4.
+  when in check, depth limit 2.
 - Evaluation: material (100/320/330/500/900) plus a simple
   piece-square score — pawn advance and centre bonus, and a
   centrality bonus for knights and bishops.
@@ -35,7 +37,7 @@ via `/move`, and never resigns early.
 
 ## Files
 
-- `main.py` — the whole engine (2,639 bytes, packed).
+- `main.py` — the whole engine (2,628 bytes, packed).
 - `README.md` — this file.
 - `LICENSE` — MIT.
 
